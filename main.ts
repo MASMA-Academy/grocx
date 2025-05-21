@@ -1,6 +1,7 @@
 // @deno-types="npm:@types/express@4.17.15"
 import express from "npm:express";
 import supabase from "./db.js";
+const path = require('path'); 
 
 const app = express();
 app.use(express.json());
