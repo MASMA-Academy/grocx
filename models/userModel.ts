@@ -1,56 +1,17 @@
 import supabase from "../db.js";
+import { User } from "../types/index.ts";
 
-export async function getUsers() {
-  const { data, error } = await supabase
-    .from("user")
-    .select("*");
-
-  if (error) {
-    console.error("Error fetching users:", error.message);
-    return;
-  }
-
-  console.log("Users:", data);
-}
-
-export async function getUserById(id:number) {
+export const findUserByEmail = async (email: string): Promise<User | null> => {
   const { data, error } = await supabase
     .from("user")
     .select("*")
-    .eq("id", id)
-    .single();
+    .eq("email", email)
+    .single(); // Assuming you want to get a single user by email
 
-  if (error) {
-    console.error("Error fetching user:", error.message);
-    return;
+  if (error || !data) {
+    console.error("Error fetching user:", error?.message);
+    return null;
   }
 
-  console.log("User:", data);
-}
-
-export async function createUser(user:any) {
-  const { data, error } = await supabase
-    .from("user")
-    .insert([user]);
-
-  if (error) {
-    console.error("Error creating user:", error.message);
-    return;
-  }
-
-  console.log("User created:", data);
-}   
-
-export async function updateUser(id:number, user:any) {    
-  const { data, error } = await supabase
-    .from("user")
-    .update(user)
-    .eq("id", id);
-
-  if (error) {
-    console.error("Error updating user:", error.message);
-    return;
-  }
-
-  console.log("User updated:", data);
-}   
+  return data as User;
+};
