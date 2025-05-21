@@ -4,6 +4,7 @@ import bcrypt from "npm:bcryptjs";
 import jwt from "npm:jsonwebtoken";
 import { DB } from "https://deno.land/x/sqlite/mod.ts"; // Direct import for SQLite
 import { config } from "https://deno.land/x/dotenv/mod.ts";
+const path = require('path');
 
 const app = express();
 app.use(express.json());
@@ -35,6 +36,14 @@ app.get("/users", (req, res) => {
   const users = [...db.query("SELECT id, username FROM users")].map(([id, username]) => ({ id, username }));
   res.json(users);
 });
+
+// Login page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.use(express.static("public"));
+
 
 // Start server
 app.listen(8000, () => {
