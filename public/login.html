@@ -30,9 +30,9 @@
     const form = document.getElementById('loginForm');
     const messageDiv = document.getElementById('message');
 
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      messageDiv.textContent = '';
+      messageDiv.textContent = ''; // Clear previous messages
 
       const email = form.email.value.trim();
       const password = form.password.value;
@@ -42,7 +42,29 @@
         return;
       }
 
-      alert(`Logging in with\nEmail: ${email}\nPassword: ${password}`);
+      try {
+        // Send POST request to the backend
+        const response = await fetch('http://localhost:8000/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Handle successful login
+          alert(data.message);
+        } else {
+          // Handle error (invalid email or password)
+          messageDiv.textContent = data.message;
+        }
+      } catch (error) {
+        messageDiv.textContent = 'An error occurred while logging in.';
+        console.error(error);
+      }
     });
   </script>
 </body>
