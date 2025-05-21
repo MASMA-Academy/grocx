@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Item Detail</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<nav>
+  <div class="brand">GROCX</div>
+  <div class="nav-links">
+    <a href="price-checker.html">Price Checker</a>
+    <a href="history-list.html">History List</a>
+    <a href="scan-barcode.html">Scan Barcode</a>
+    <a href="item-detail.html" class="active">Item Detail</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Item Detail</h1>
+  <input id="item-code" placeholder="Enter item code..." />
+  <br />
+  <button onclick="fetchItemDetail()">Get Details</button>
+
+  <div id="item-detail" style="margin-top: 1.5rem; text-align: left;">
+    <!-- Item details will show here -->
+  </div>
+</div>
+
+<script src="js/item-detail.js"></script>
+</body>
+</html>

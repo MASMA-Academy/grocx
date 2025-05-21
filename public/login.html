@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - GROCX</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="brand">GROCX</div>
+    <div class="nav-links">
+      <a href="singup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <div class="container" style="max-width: 400px;">
+    <h1>Login</h1>
+
+    <form id="loginForm" novalidate>
+      <input type="email" id="email" placeholder="Email" required autocomplete="username" />
+      <input type="password" id="password" placeholder="Password" required autocomplete="current-password" />
+      <button type="submit">Login</button>
+    </form>
+
+    <div id="message" style="margin-top: 1rem; color: red;"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const messageDiv = document.getElementById('message');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      messageDiv.textContent = '';
+
+      const email = form.email.value.trim();
+      const password = form.password.value;
+
+      if (!email || !password) {
+        messageDiv.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      alert(`Logging in with\nEmail: ${email}\nPassword: ${password}`);
+    });
+  </script>
+</body>
+</html>

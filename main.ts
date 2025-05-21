@@ -1,6 +1,7 @@
 // @deno-types="npm:@types/express@4.17.15"
 import express from "npm:express";
 import supabase from "./db.js";
+const path = require('path'); 
 
 const app = express();
 app.use(express.json());
@@ -35,6 +36,14 @@ getUsers();
 //     res.status(500).send("Internal Server Error");
 //   }
 // });
+
+// Login page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.use(express.static("public"));
+
 
 // Start server
 app.listen(8000, () => {

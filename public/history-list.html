@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>History List</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<nav>
+  <div class="brand">GROCX</div>
+  <div class="nav-links">
+    <a href="scan-barcode.html">Scan Barcode</a>
+    <a href="price-checker.html">Price Checker</a>
+    <a href="history-list.html" class="active">History List</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>History List</h1>
+  <table id="history-table">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Brand</th>
+        <th>Barcode</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- History rows inserted here dynamically -->
+    </tbody>
+  </table>
+</div>
+
+<script src="js/history-list.js"></script>
+</body>
+</html>
