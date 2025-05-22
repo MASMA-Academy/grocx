@@ -21,7 +21,19 @@ const barcodeInputElement = document.getElementById("barcode-input");
  * DOM element to display product details.
  * @type {HTMLElement | null}
  */
-const productDetailsContainer = document.getElementById("product-details-container");
+let productDetailsContainer = document.getElementById("product-details-container");
+
+// Create product details container if it doesn't exist
+if (!productDetailsContainer) {
+    console.log("Creating product details container as it doesn't exist");
+    productDetailsContainer = document.createElement("div");
+    productDetailsContainer.id = "product-details-container";
+    productDetailsContainer.className = "product-details-container";
+    
+    // Append to body or a specific container
+    const scannerContainer = document.getElementById("scanner-container") || document.body;
+    scannerContainer.appendChild(productDetailsContainer);
+}
 
 /**
  * Represents the HTML5 QR Code scanner instance with UI.
@@ -40,8 +52,11 @@ function onScanSuccess(decodedText, decodedResult) {
         scanResultElement.textContent = `Scanned Barcode: ${decodedText}`;
     }
     
-    // Fetch product details using the scanned barcode
-    fetchProductDetails(decodedText);
+    // Immediately fetch product details using the scanned barcode
+    console.log("Initiating product fetch from scan success handler");
+    setTimeout(() => {
+        fetchProductDetails(decodedText);
+    }, 100); // Small delay to ensure UI updates first
     
     // Important: Clear the scanner after a successful scan to stop video and remove UI.
     if (html5QrcodeScanner) {
@@ -165,6 +180,7 @@ function handleManual() {
  */
 async function fetchProductDetails(barcode) {
     console.log("Fetching product details for barcode:", barcode);
+    console.log("Product details container:", productDetailsContainer);
     if (!productDetailsContainer) return;
     
     try {
@@ -172,7 +188,8 @@ async function fetchProductDetails(barcode) {
         productDetailsContainer.innerHTML = "<p>Fetching product details...</p>";
         
         // Replace with your actual API endpoint
-        const response = await fetch(`/api/products/barcode/${barcode}`);
+        const response = await fetch(`/product/${barcode}`);
+        console.log("Response:", response);
         
         if (!response.ok) {
             throw new Error(`Failed to fetch product details: ${response.status} ${response.statusText}`);
@@ -200,11 +217,11 @@ function displayProductDetails(productData) {
     // Clear previous content
     productDetailsContainer.innerHTML = "";
     
-    // Create product details elements
+    // Create product details card
     const productCard = document.createElement("div");
     productCard.className = "product-card";
     
-    // Product header with name
+    // Product header with name and brand
     const productHeader = document.createElement("div");
     productHeader.className = "product-header";
     
@@ -212,56 +229,227 @@ function displayProductDetails(productData) {
     productName.textContent = productData.name || "Unknown Product";
     productHeader.appendChild(productName);
     
-    // Product price
-    const productPrice = document.createElement("div");
-    productPrice.className = "product-price";
-    productPrice.textContent = productData.price ? 
-        `$${parseFloat(productData.price).toFixed(2)}` : 
-        "Price not available";
-    
-    // Product image if available
-    let productImage = null;
-    if (productData.imageUrl) {
-        productImage = document.createElement("img");
-        productImage.src = productData.imageUrl;
-        productImage.alt = productData.name || "Product image";
-        productImage.className = "product-image";
+    if (productData.brand) {
+        const productBrand = document.createElement("p");
+        productBrand.className = "product-brand";
+        productBrand.textContent = productData.brand;
+        productHeader.appendChild(productBrand);
     }
+    
+    // Barcode display
+    const barcodeDisplay = document.createElement("p");
+    barcodeDisplay.className = "barcode-display";
+    barcodeDisplay.textContent = `Barcode: ${productData.barcode}`;
     
     // Product description
     const productDescription = document.createElement("p");
     productDescription.className = "product-description";
     productDescription.textContent = productData.description || "No description available";
     
-    // Additional details section
-    const productDetails = document.createElement("div");
-    productDetails.className = "product-details";
-    
-    // Stock information
-    const productStock = document.createElement("p");
-    productStock.innerHTML = `<strong>Stock:</strong> ${
-        productData.stock !== undefined ? productData.stock : "Unknown"
-    }`;
-    productDetails.appendChild(productStock);
-    
     // Category information if available
+    const productCategory = document.createElement("p");
+    productCategory.className = "product-category";
     if (productData.category) {
-        const productCategory = document.createElement("p");
         productCategory.innerHTML = `<strong>Category:</strong> ${productData.category}`;
-        productDetails.appendChild(productCategory);
+    } else {
+        productCategory.innerHTML = "<strong>Category:</strong> Not categorized";
     }
     
-    // Assemble the product card
+    // Add all product details to card
     productCard.appendChild(productHeader);
-    productCard.appendChild(productPrice);
-    if (productImage) {
-        productCard.appendChild(productImage);
-    }
+    productCard.appendChild(barcodeDisplay);
     productCard.appendChild(productDescription);
-    productCard.appendChild(productDetails);
+    productCard.appendChild(productCategory);
     
-    // Add to container
+    // Create store selection and price entry form
+    const priceForm = document.createElement("div");
+    priceForm.className = "price-form";
+    
+    const formTitle = document.createElement("h3");
+    formTitle.textContent = "Add Price Information";
+    priceForm.appendChild(formTitle);
+    
+    // Store selection
+    const storeSelectGroup = document.createElement("div");
+    storeSelectGroup.className = "form-group";
+    
+    const storeLabel = document.createElement("label");
+    storeLabel.setAttribute("for", "store-select");
+    storeLabel.textContent = "Select Store:";
+    storeSelectGroup.appendChild(storeLabel);
+    
+    const storeSelect = document.createElement("select");
+    storeSelect.id = "store-select";
+    storeSelect.className = "form-control";
+    storeSelectGroup.appendChild(storeSelect);
+    
+    // Add loading option
+    const loadingOption = document.createElement("option");
+    loadingOption.value = "";
+    loadingOption.textContent = "Loading stores...";
+    storeSelect.appendChild(loadingOption);
+    
+    // Price input
+    const priceGroup = document.createElement("div");
+    priceGroup.className = "form-group";
+    
+    const priceLabel = document.createElement("label");
+    priceLabel.setAttribute("for", "price-input");
+    priceLabel.textContent = "Price:";
+    priceGroup.appendChild(priceLabel);
+    
+    const priceInputWrapper = document.createElement("div");
+    priceInputWrapper.className = "price-input-wrapper";
+    
+    const currencySymbol = document.createElement("span");
+    currencySymbol.className = "currency-symbol";
+    currencySymbol.textContent = "$";
+    priceInputWrapper.appendChild(currencySymbol);
+    
+    const priceInput = document.createElement("input");
+    priceInput.type = "number";
+    priceInput.id = "price-input";
+    priceInput.className = "form-control";
+    priceInput.min = "0";
+    priceInput.step = "0.01";
+    priceInput.placeholder = "0.00";
+    priceInputWrapper.appendChild(priceInput);
+    
+    priceGroup.appendChild(priceInputWrapper);
+    
+    // Submit button
+    const submitBtn = document.createElement("button");
+    submitBtn.type = "button";
+    submitBtn.className = "btn btn-primary";
+    submitBtn.textContent = "Save Price";
+    submitBtn.onclick = () => saveProductPrice(productData.id);
+    
+    // Add form elements
+    priceForm.appendChild(storeSelectGroup);
+    priceForm.appendChild(priceGroup);
+    priceForm.appendChild(submitBtn);
+    
+    // Add price form to product card
+    productCard.appendChild(priceForm);
+    
+    // Add product card to container
     productDetailsContainer.appendChild(productCard);
+    
+    // Load stores
+    fetchStores().then(stores => {
+        populateStoreSelect(stores, storeSelect);
+    });
+}
+
+/**
+ * Fetches the list of stores from the API.
+ * @returns {Promise<Array>} - A promise that resolves to an array of store objects.
+ */
+async function fetchStores() {
+    try {
+        const response = await fetch("/stores");
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch stores: ${response.status} ${response.statusText}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching stores:", error);
+        return [];
+    }
+}
+
+/**
+ * Populates the store select dropdown with available stores.
+ * @param {Array} stores - The array of store objects.
+ * @param {HTMLSelectElement} selectElement - The select element to populate.
+ */
+function populateStoreSelect(stores, selectElement) {
+    // Clear existing options
+    selectElement.innerHTML = "";
+    
+    if (stores.length === 0) {
+        const noStoresOption = document.createElement("option");
+        noStoresOption.value = "";
+        noStoresOption.textContent = "No stores available";
+        selectElement.appendChild(noStoresOption);
+        return;
+    }
+    
+    // Add default prompt
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Select a store";
+    selectElement.appendChild(defaultOption);
+    
+    // Add store options
+    stores.forEach(store => {
+        const option = document.createElement("option");
+        option.value = store.id;
+        option.textContent = `${store.name} - ${store.location}`;
+        selectElement.appendChild(option);
+    });
+}
+
+/**
+ * Saves the product price to the database.
+ * @param {string} productId - The ID of the product.
+ */
+async function saveProductPrice(productId) {
+    const storeSelect = document.getElementById("store-select");
+    const priceInput = document.getElementById("price-input");
+    
+    // Validate inputs
+    if (!storeSelect || !priceInput) {
+        console.error("Store select or price input not found");
+        return;
+    }
+    
+    const storeId = storeSelect.value;
+    const price = priceInput.value;
+    
+    if (!storeId) {
+        alert("Please select a store");
+        return;
+    }
+    
+    if (!price || isNaN(parseFloat(price)) || parseFloat(price) < 0) {
+        alert("Please enter a valid price");
+        return;
+    }
+    
+    try {
+        const response = await fetch("/product-price", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                store_id: storeId,
+                price: parseFloat(price),
+                currency: "USD" // Default currency
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Failed to save price: ${response.status} ${response.statusText}`);
+        }
+        
+        const result = await response.json();
+        
+        // Show success message
+        alert("Price saved successfully!");
+        
+        // Clear inputs
+        priceInput.value = "";
+        storeSelect.selectedIndex = 0;
+        
+    } catch (error) {
+        console.error("Error saving product price:", error);
+        alert(`Failed to save price: ${error.message}`);
+    }
 }
 
 // Ensure library constants are available (usually global when script is included)
