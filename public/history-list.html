@@ -14,7 +14,10 @@
 
 <nav>
   <div class="brand">GROCX</div>
-  <div class="nav-links">
+  <button class="hamburger-menu" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav-links-history">
+    &#9776; <!-- Hamburger Icon -->
+  </button>
+  <div class="nav-links" id="main-nav-links-history">
     <a href="scan-barcode.html">Scan Barcode</a>
     <a href="price-checker.html">Price Checker</a>
     <a href="history-list.html" class="active">History List</a>
@@ -24,12 +27,16 @@
 <div class="container">
   <h1>Full Price History</h1>
 
-  <div id="full-history-table-container">
-    <!-- Full price history table will be loaded here -->
+  <div class="table-responsive-wrapper">
+    <div id="full-history-table-container">
+      <!-- Full price history table will be loaded here by JS, 
+           assume js/history-list.js creates a <table> element inside this div -->
+    </div>
   </div>
 
 </div>
 
 <script src="js/history-list.js"></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>

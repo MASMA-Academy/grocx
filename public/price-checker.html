@@ -14,7 +14,10 @@
 
 <nav>
   <div class="brand">GROCX</div>
-  <div class="nav-links">
+  <button class="hamburger-menu" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav-links-price">
+    &#9776; <!-- Hamburger Icon -->
+  </button>
+  <div class="nav-links" id="main-nav-links-price">
     <a href="scan-barcode.html">Scan Barcode</a>
     <a href="price-checker.html" class="active">Price Checker</a>
     <a href="history-list.html">History List</a>
@@ -43,5 +46,6 @@
 </div>
 
 <script src="js/price-checker.js"></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>
