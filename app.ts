@@ -32,6 +32,7 @@ app.get('/register', (_req: Request, res: Response) => {
 });
 
 
+
 app.use(express.static("public"));
 
 export default app;
