@@ -1,3 +1,5 @@
+// @ts-types="npm:@types/express@4.17.15"
+
 import path from "node:path";
 import { cors, dotenv, express, Request, Response } from "./deps.ts";
 import { authRouter } from "./routes/authRoutes.ts";
@@ -21,11 +23,11 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 // Login page
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(Deno.cwd(), 'public', 'login.html'));
+app.get("/login", (req: Request, res: Response) => {
+  res.sendFile(path.join(Deno.cwd(), "public", "login.html"));
 });
 
-app.post('/login', async (req, res) => {
+app.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
