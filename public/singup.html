@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up - GROCX</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="brand">GROCX</div>
+    <div class="nav-links">
+      <a href="login.html">Log In</a>
+    </div>
+  </nav>
+
+  <div class="container" style="max-width: 400px;">
+    <h1>Create Account</h1>
+
+    <form id="signupForm" novalidate>
+      <input type="text" id="name" placeholder="Full Name" required autocomplete="name" />
+      <input type="email" id="email" placeholder="Email" required autocomplete="email" />
+      <input type="password" id="password" placeholder="Password" required autocomplete="new-password" />
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required autocomplete="new-password" />
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <div id="message" style="margin-top: 1rem; color: red;"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    const messageDiv = document.getElementById('message');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      messageDiv.textContent = '';
+
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const password = form.password.value;
+      const confirmPassword = form.confirmPassword.value;
+
+      if (!name || !email || !password || !confirmPassword) {
+        messageDiv.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        messageDiv.textContent = 'Passwords do not match.';
+        return;
+      }
+
+      // Simple email format check
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        messageDiv.textContent = 'Please enter a valid email.';
+        return;
+      }
+
+      alert(`Account created for:\nName: ${name}\nEmail: ${email}`);
+      form.reset();
+    });
+  </script>
+
+</body>
+</html>

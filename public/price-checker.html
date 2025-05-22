@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Price Checker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+</head>
+<body>
+
+<nav>
+  <div class="brand">GROCX</div>
+  <div class="nav-links">
+    <a href="scan-barcode.html">Scan Barcode</a>
+    <a href="price-checker.html" class="active">Price Checker</a>
+    <a href="history-list.html">History List</a>
+  </div>
+</nav>
+
+
+  <div class="container">
+    <h1>Price Checker</h1>
+    <input id="barcode" placeholder="Enter product name..." />
+    <br />
+    <button onclick="checkPrice()">Check Price</button>
+    <p id="result"></p>
+  </div>
+
+  <script src="js/price-checker.js"></script>
+</body>
+</html>
