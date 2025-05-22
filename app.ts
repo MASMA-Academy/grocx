@@ -3,6 +3,7 @@
 import path from "node:path";
 import { cors, dotenv, express, Request, Response } from "./deps.ts";
 import { authRouter } from "./routes/authRoutes.ts";
+import { scanBarcodeRouter } from "./routes/scan-barcode.ts";
 
 // Load environment variables
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use(authRouter);
+app.use(scanBarcodeRouter);
 // Home route
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Welcome to GROCX" });
