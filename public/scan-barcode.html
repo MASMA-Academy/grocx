@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Scan Barcode</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan Barcode - GrocX</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/scan-barcode.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/html5-qrcode"></script>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4CAF50">
 </head>
 <body>
 
@@ -21,26 +25,28 @@
 
 
 <div class="container">
-  <h1>Scan Barcode</h1>
+  <div id="scanner-container">
+    <h1>Scan Barcode</h1>
+    <p>Point your camera at a barcode. Manual entry is also available below.</p>
+    
+    <!-- Barcode Scanner -->
+    <div id="scanner" style="height: 400px; width: 400px; margin: 20px auto;"></div>
+    
+    <!-- Manual Input Section -->
+    <div class="manual-input-section">
+        <div class="divider"><span>OR ENTER MANUALLY</span></div>
+        <input type="text" id="barcode-input" class="form-control" placeholder="Enter barcode manually..." />
+        <button type="button" id="manual-submit-btn" class="btn btn-secondary">Submit Manual Barcode</button>
+    </div>
 
-  <p>You can scan with your camera or enter the barcode manually:</p>
-
-<!-- Barcode Scanner -->
-<div id="scanner" style="height: 450px; width: 450px; margin: auto;"></div>
-<div class="scanner-buttons">
-  <button onclick="startScanner()">Start Camera Scan</button>
-  <button onclick="stopScanner()">Stop Camera</button>
-</div>
-
-<!-- OR Divider -->
-<div class="divider"><span>OR</span></div>
-
-<!-- Manual Input -->
-<input id="barcode-input" placeholder="Enter barcode manually..." />
-<br />
-<button onclick="handleManual()">Submit</button>
-
-  <p id="scan-result"></p>
+    <p id="scan-result" class="scan-feedback"></p> 
+  </div>
+  
+  <!-- Product Details Container (sibling to scanner-container for easy toggling) -->
+  <div id="product-details-container" style="display: none;">
+    <!-- Product details will be loaded here by JavaScript -->
+    <!-- JS will also manage displaying this and hiding scanner-container -->
+  </div>
 </div>
 
 <script src="js/scan-barcode.js"></script>

@@ -5,6 +5,7 @@ import { findUserByEmail,createUser } from "../models/userModel.ts";
 export const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
+console.log("BODY:", req.body);
 
     // Check if user already exists
     const existingUser = await findUserByEmail(email);

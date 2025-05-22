@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>History List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Price History List - GROCX</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/history-list.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4CAF50">
 </head>
 <body>
 
@@ -18,20 +22,12 @@
 </nav>
 
 <div class="container">
-  <h1>History List</h1>
-  <table id="history-table">
-    <thead>
-      <tr>
-        <th>Product Name</th>
-        <th>Brand</th>
-        <th>Barcode</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- History rows inserted here dynamically -->
-    </tbody>
-  </table>
+  <h1>Full Price History</h1>
+
+  <div id="full-history-table-container">
+    <!-- Full price history table will be loaded here -->
+  </div>
+
 </div>
 
 <script src="js/history-list.js"></script>

@@ -1,0 +1,326 @@
+/* Modern product display styling */
+.product-details-container {
+  margin: 20px auto;
+  max-width: 500px;
+  font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: white;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.product-card {
+  padding: 0;
+}
+
+.product-header {
+  background: linear-gradient(135deg, #2e7d32 0%, #4CAF50 100%);
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.product-icon {
+  margin-right: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.header-content {
+  flex: 1;
+}
+
+.product-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.product-brand {
+  margin: 5px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.barcode-display {
+  background: #f0f2f5;
+  padding: 12px 20px;
+  font-family: monospace;
+  font-size: 16px;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-content {
+  padding: 20px;
+}
+
+.product-detail-row {
+  display: flex;
+  margin-bottom: 15px;
+  align-items: flex-start;
+}
+
+.detail-icon {
+  background: #e8f5e9;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  color: #2e7d32;
+  flex-shrink: 0;
+}
+
+.detail-content {
+  flex: 1;
+}
+
+.detail-label {
+  display: block;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.detail-value {
+  display: block;
+  color: #333;
+  line-height: 1.5;
+}
+
+.product-category {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Price form styling */
+.price-form {
+  background: #f8f9fa;
+  padding: 20px;
+  border-top: 1px solid #eee;
+}
+
+.price-form h3 {
+  margin-top: 0;
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+  font-size: 14px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 15px;
+  padding-right: 45px;
+}
+
+.price-input-wrapper {
+  position: relative;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  font-weight: 500;
+}
+
+#price-input {
+  padding-left: 40px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #2e7d32 0%, #4CAF50 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1b5e20 0%, #388E3C 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.2);
+}
+
+.btn-secondary {
+  background: #f1f3f4;
+  color: #555;
+}
+
+.btn-secondary:hover {
+  background: #e2e6ea;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.error-message {
+  color: #e53935;
+  background-color: #ffebee;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.error-message::before {
+  content: "⚠️";
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Animation for product details */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* New Product Form specific styles */
+.new-product-form .product-header {
+  background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%); /* Orange gradient for new product */
+}
+
+.new-product-form .product-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.new-product-form .form-group input[readonly] {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+/* Loading Message Styling */
+.loading-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: #555;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid #4CAF50; /* Green */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error message details */
+.error-details {
+    font-size: 0.9em;
+    color: #b71c1c; /* Darker red for more detail */
+    margin-top: 5px;
+    word-break: break-word;
+}
+
+.error-message button {
+    margin-top: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .product-details-container {
+    margin: 15px;
+    border-radius: 8px;
+  }
+  
+  .product-header {
+    padding: 15px;
+  }
+  
+  .product-header h2 {
+    font-size: 18px;
+  }
+  
+  .price-form, .product-content {
+    padding: 15px;
+  }
+} 

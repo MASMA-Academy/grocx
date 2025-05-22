@@ -1,6 +1,6 @@
 import { express } from "../deps.ts";
-import { getProductByBarcode } from "../controllers/ProductController.ts";
-import { getStores, saveProductPrice } from "../controllers/StoreController.ts";
+import { getProductByBarcode, searchProducts, getProductPriceHistory } from "../controllers/ProductController.ts";
+import { getStores, saveProductPrice, getAllPriceEntries } from "../controllers/StoreController.ts";
 
 const router = express.Router();
 
@@ -38,6 +38,35 @@ router.get("/product-test", (req, res) => {
  *         description: Internal server error
  */
 router.get("/product/:barcode", getProductByBarcode);
+
+/**
+ * @swagger
+ * /products/search:
+ *   get:
+ *     summary: Search for products by name or barcode
+ *     tags: [Product]
+ *     parameters:
+ *       - in: query
+ *         name: q
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The search query (product name or barcode)
+ *     responses:
+ *       200:
+ *         description: A list of matching products
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ *       400:
+ *         description: Search query is required
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/products/search", searchProducts);
 
 /**
  * @swagger
@@ -87,5 +116,55 @@ router.get("/stores", getStores);
  *         description: Internal server error
  */
 router.post("/product-price", saveProductPrice);
+
+/**
+ * @swagger
+ * /product-prices/all:
+ *   get:
+ *     summary: Get all recorded product prices with product and store details
+ *     tags: [ProductPrice]
+ *     responses:
+ *       200:
+ *         description: A list of all price entries
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object # Define the expected shape of each item here
+ *                 # Example item: { product_name, product_barcode, product_brand, store_name, store_location, price, currency, created_at }
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/product-prices/all", getAllPriceEntries);
+
+/**
+ * @swagger
+ * /product/{productId}/price-history:
+ *   get:
+ *     summary: Get price history for a specific product
+ *     tags: [ProductPrice]
+ *     parameters:
+ *       - in: path
+ *         name: productId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the product
+ *     responses:
+ *       200:
+ *         description: A list of price entries for the product, including store details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/FullPriceEntry' 
+ *       400:
+ *         description: Product ID parameter is required
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/product/:productId/price-history", getProductPriceHistory);
 
 export { router as productRouter }; 
