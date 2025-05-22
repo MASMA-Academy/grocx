@@ -1,48 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Scan Barcode</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <script src="https://unpkg.com/html5-qrcode"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Scan Barcode</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/html5-qrcode"></script>
+  </head>
+  <body>
+    <nav>
+      <div class="brand">GROCX</div>
 
-<nav>
-  <div class="brand">GROCX</div>
+      <div class="nav-links">
+        <a href="scan-barcode.html" class="active">Scan Barcode</a>
+        <a href="price-checker.html">Price Checker</a>
+        <a href="history-list.html">History List</a>
+        <button onclick="handleSignOut()" class="signout-button">
+          Sign Out
+        </button>
+      </div>
+    </nav>
 
-    <div class="nav-links">
-      <a href="scan-barcode.html" class="active">Scan Barcode</a>
-      <a href="price-checker.html">Price Checker</a>
-      <a href="history-list.html">History List</a>
+    <div class="container">
+      <h1>Scan Barcode</h1>
+
+      <p>You can scan with your camera or enter the barcode manually:</p>
+
+      <!-- Barcode Scanner -->
+      <div id="scanner" style="width: 300px; margin: auto"></div>
+      <div class="scanner-buttons">
+        <button onclick="startScanner()">Start Camera Scan</button>
+        <button onclick="stopScanner()">Stop Camera</button>
+      </div>
+
+      <!-- OR Divider -->
+      <div class="divider"><span>OR</span></div>
+
+      <!-- Manual Input -->
+      <input id="barcode-input" placeholder="Enter barcode manually..." />
+      <br />
+      <button onclick="handleManual()">Submit</button>
+
+      <p id="scan-result"></p>
     </div>
-</nav>
 
-
-<div class="container">
-  <h1>Scan Barcode</h1>
-
-  <p>You can scan with your camera or enter the barcode manually:</p>
-
-<!-- Barcode Scanner -->
-<div id="scanner" style="width: 300px; margin: auto;"></div>
-<div class="scanner-buttons">
-  <button onclick="startScanner()">Start Camera Scan</button>
-  <button onclick="stopScanner()">Stop Camera</button>
-</div>
-
-<!-- OR Divider -->
-<div class="divider"><span>OR</span></div>
-
-<!-- Manual Input -->
-<input id="barcode-input" placeholder="Enter barcode manually..." />
-<br />
-<button onclick="handleManual()">Submit</button>
-
-  <p id="scan-result"></p>
-</div>
-
-<script src="js/scan-barcode.js"></script>
-</body>
+    <script src="js/scan-barcode.js"></script>
+    <script>
+      function handleSignOut() {
+        window.location.href = "login.html";
+      }
+    </script>
+  </body>
 </html>
