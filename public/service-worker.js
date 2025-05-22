@@ -5,7 +5,6 @@ const urlsToCache = [
   "/history-list.html",
   "/price-checker.html",
   "/login.html",
-  "/signup.html", // Assuming singup.html is a typo for signup.html
   "/item-detail.html",
   "/style.css",
   "/css/price-checker.css",
@@ -13,9 +12,8 @@ const urlsToCache = [
   "/js/scan-barcode.js",
   "/js/price-checker.js",
   "/js/history-list.js",
-  // Add paths to your icons once you have them, e.g.:
-  // "/images/icons/icon-192x192.png",
-  // "/images/icons/icon-512x512.png",
+  "/images/icons/icon-192x192.png",
+  "/images/icons/icon-512x512.png",
   // Add any other critical static assets (images, fonts, etc.)
 ];
 
