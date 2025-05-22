@@ -46,8 +46,31 @@
 
       <p id="scan-result"></p>
     </div>
+    
+<div class="container">
+  <h1>Scan Barcode</h1>
 
-    <script src="js/scan-barcode.js"></script>
+  <p>You can scan with your camera or enter the barcode manually:</p>
+
+<!-- Barcode Scanner -->
+<div id="scanner" style="height: 450px; width: 450px; margin: auto;"></div>
+<div class="scanner-buttons">
+  <button onclick="startScanner()">Start Camera Scan</button>
+  <button onclick="stopScanner()">Stop Camera</button>
+</div>
+
+<!-- OR Divider -->
+<div class="divider"><span>OR</span></div>
+
+<!-- Manual Input -->
+<input id="barcode-input" placeholder="Enter barcode manually..." />
+<br />
+<button onclick="handleManual()">Submit</button>
+
+  <p id="scan-result"></p>
+</div>
+
+   <script src="js/scan-barcode.js"></script>
     <script>
       function handleSignOut() {
         window.location.href = "login.html";

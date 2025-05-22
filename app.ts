@@ -1,7 +1,9 @@
+// @ts-types="npm:@types/express@4.17.15"
+
 import path from "node:path";
 import { cors, dotenv, express, Request, Response } from "./deps.ts";
 import { authRouter } from "./routes/authRoutes.ts";
-import { findUserByEmail } from "./models/userModel.ts";
+import { scanBarcodeRouter } from "./routes/scan-barcode.ts";
 
 // Load environment variables
 dotenv.config();
@@ -14,7 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/api/auth", authRouter);
+app.use(authRouter);
+app.use(scanBarcodeRouter);
 // Home route
 // app.get("/", (_req: Request, res: Response) => {
 //   res.json({ message: "Welcome to GROCX" });
@@ -23,29 +26,16 @@ app.get("/", (_req: Request, res: Response) => {
   res.sendFile(path.join(Deno.cwd(), 'public', 'login.html'));
 });
 // Login page
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(Deno.cwd(), 'public', 'login.html'));
+app.get("/login", (req: Request, res: Response) => {
+  res.sendFile(path.join(Deno.cwd(), "public", "login.html"));
 });
 
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ message: "Please fill in all fields." });
-  }
-
-  try {
-    const user = await findUserByEmail(email);
-    if (user && user.password === password) { // You should hash passwords in real applications
-      return res.status(200).json({ message: "Login successful", user });
-    } else {
-      return res.status(401).json({ message: "Invalid email or password." });
-    }
-  } catch (error) {
-    console.error("Error logging in:", error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
+// Register page
+app.get('/register', (_req: Request, res: Response) => {
+  res.sendFile(path.join(Deno.cwd(), 'public', 'singup.html'));
 });
+
+
 
 app.use(express.static("public"));
 
