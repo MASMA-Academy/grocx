@@ -14,6 +14,9 @@
     <a href="scan-barcode.html">Scan Barcode</a>
     <a href="price-checker.html">Price Checker</a>
     <a href="history-list.html" class="active">History List</a>
+        <button onclick="handleSignOut()" class="signout-button">
+      Sign Out
+    </button>
   </div>
 </nav>
 
@@ -35,5 +38,10 @@
 </div>
 
 <script src="js/history-list.js"></script>
+ <script>
+      function handleSignOut() {
+        window.location.href = "login.html";
+      }
+    </script>
 </body>
 </html>

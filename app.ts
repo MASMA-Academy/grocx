@@ -19,10 +19,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(authRouter);
 app.use(scanBarcodeRouter);
 // Home route
+// app.get("/", (_req: Request, res: Response) => {
+//   res.json({ message: "Welcome to GROCX" });
+// });
 app.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "Welcome to GROCX" });
+  res.sendFile(path.join(Deno.cwd(), 'public', 'login.html'));
 });
-
 // Login page
 app.get("/login", (req: Request, res: Response) => {
   res.sendFile(path.join(Deno.cwd(), "public", "login.html"));
