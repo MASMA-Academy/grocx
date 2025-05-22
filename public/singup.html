@@ -32,15 +32,16 @@
     const form = document.getElementById('signupForm');
     const messageDiv = document.getElementById('message');
 
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      messageDiv.textContent = '';
+      messageDiv.textContent = ''; // Clear previous messages
 
       const name = form.name.value.trim();
       const email = form.email.value.trim();
       const password = form.password.value;
       const confirmPassword = form.confirmPassword.value;
 
+      // Input validation
       if (!name || !email || !password || !confirmPassword) {
         messageDiv.textContent = 'Please fill in all fields.';
         return;
@@ -58,8 +59,30 @@
         return;
       }
 
-      alert(`Account created for:\nName: ${name}\nEmail: ${email}`);
-      form.reset();
+      // Sending data to the backend
+      try {
+        const response = await fetch("/register", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Handle successful registration
+          alert(data.message || 'Account created successfully!');
+          form.reset(); // Reset form
+        } else {
+          // Handle error (e.g., email already taken)
+          messageDiv.textContent = data.message || 'An error occurred during registration.';
+        }
+      } catch (error) {
+        messageDiv.textContent = 'An error occurred while registering.';
+        console.error(error);
+      }
     });
   </script>
 
