@@ -57,6 +57,7 @@
         if (response.ok) {
           // Handle successful login
           alert(data.message);
+          window.location.href = "scan-barcode.html";
         } else {
           // Handle error (invalid email or password)
           messageDiv.textContent = data.message;

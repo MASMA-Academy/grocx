@@ -1,6 +1,7 @@
 import path from "node:path";
 import { cors, dotenv, express, Request, Response } from "./deps.ts";
 import { authRouter } from "./routes/authRoutes.ts";
+import { productRouter } from "./routes/productRoutes.ts";
 import { findUserByEmail } from "./models/userModel.ts";
 
 // Load environment variables
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/auth", authRouter);
+app.use("/api/product", productRouter);
 // Home route
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Welcome to GROCX" });

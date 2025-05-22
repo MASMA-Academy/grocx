@@ -1,5 +1,5 @@
 import { Request, Response } from "../deps.ts";
-import { bcrypt } from "../deps.ts";
+import { bcryptjs } from "../deps.ts";
 import { findUserByEmail } from "../models/userModel.ts";
 
 // export const register = async (req: Request, res: Response) => {
@@ -42,14 +42,12 @@ export const login = async (req: Request, res: Response) => {
     }
 
     // Check password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcryptjs.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    res.json({
-      email: user.email
-    });
+    res.redirect("/scan-barcode");
   } catch (error: unknown) {
     const errorMessage = error instanceof Error
       ? error.message

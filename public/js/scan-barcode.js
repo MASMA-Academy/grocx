@@ -18,6 +18,12 @@ const scanResultElement = document.getElementById("scan-result");
 const barcodeInputElement = document.getElementById("barcode-input");
 
 /**
+ * DOM element to display product details.
+ * @type {HTMLElement | null}
+ */
+const productDetailsContainer = document.getElementById("product-details-container");
+
+/**
  * Represents the HTML5 QR Code scanner instance with UI.
  * @type {Html5QrcodeScanner | null}
  */
@@ -33,6 +39,10 @@ function onScanSuccess(decodedText, decodedResult) {
     if (scanResultElement) {
         scanResultElement.textContent = `Scanned Barcode: ${decodedText}`;
     }
+    
+    // Fetch product details using the scanned barcode
+    fetchProductDetails(decodedText);
+    
     // Important: Clear the scanner after a successful scan to stop video and remove UI.
     if (html5QrcodeScanner) {
         html5QrcodeScanner.clear().then(() => {
@@ -52,6 +62,7 @@ function onScanFailure(error) {
     // This callback is more for persistent errors or custom logging.
     // console.warn(`Scan error reported: ${error}`);
     // You might want to update scanResultElement for certain types of errors
+    
     // if (scanResultElement) {
     //     scanResultElement.textContent = `Scan Error: ${error}`;
     // }
@@ -136,11 +147,121 @@ function handleManual() {
         if (barcodeValue) {
             scanResultElement.textContent = `Manually Entered Barcode: ${barcodeValue}`;
             console.log(`Manual entry: ${barcodeValue}`);
+            
+            // Fetch product details using the manually entered barcode
+            fetchProductDetails(barcodeValue);
+            
             barcodeInputElement.value = ""; // Clear the input field
         } else {
             scanResultElement.textContent = "Please enter a barcode value.";
         }
     }
+}
+
+/**
+ * Fetches product details based on the barcode.
+ * @param {string} barcode - The barcode to use for fetching product details.
+ * @returns {Promise<void>} - A promise that resolves when the fetch operation completes.
+ */
+async function fetchProductDetails(barcode) {
+    console.log("Fetching product details for barcode:", barcode);
+    if (!productDetailsContainer) return;
+    
+    try {
+        // Display loading message
+        productDetailsContainer.innerHTML = "<p>Fetching product details...</p>";
+        
+        // Replace with your actual API endpoint
+        const response = await fetch(`/api/products/barcode/${barcode}`);
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch product details: ${response.status} ${response.statusText}`);
+        }
+        
+        const productData = await response.json();
+        displayProductDetails(productData);
+    } catch (error) {
+        console.error("Error fetching product details:", error);
+        productDetailsContainer.innerHTML = `
+            <div class="error-message">
+                <p>Failed to fetch product details: ${error.message}</p>
+            </div>
+        `;
+    }
+}
+
+/**
+ * Displays product details in the product details container.
+ * @param {object} productData - The product data to display.
+ */
+function displayProductDetails(productData) {
+    if (!productDetailsContainer) return;
+    
+    // Clear previous content
+    productDetailsContainer.innerHTML = "";
+    
+    // Create product details elements
+    const productCard = document.createElement("div");
+    productCard.className = "product-card";
+    
+    // Product header with name
+    const productHeader = document.createElement("div");
+    productHeader.className = "product-header";
+    
+    const productName = document.createElement("h2");
+    productName.textContent = productData.name || "Unknown Product";
+    productHeader.appendChild(productName);
+    
+    // Product price
+    const productPrice = document.createElement("div");
+    productPrice.className = "product-price";
+    productPrice.textContent = productData.price ? 
+        `$${parseFloat(productData.price).toFixed(2)}` : 
+        "Price not available";
+    
+    // Product image if available
+    let productImage = null;
+    if (productData.imageUrl) {
+        productImage = document.createElement("img");
+        productImage.src = productData.imageUrl;
+        productImage.alt = productData.name || "Product image";
+        productImage.className = "product-image";
+    }
+    
+    // Product description
+    const productDescription = document.createElement("p");
+    productDescription.className = "product-description";
+    productDescription.textContent = productData.description || "No description available";
+    
+    // Additional details section
+    const productDetails = document.createElement("div");
+    productDetails.className = "product-details";
+    
+    // Stock information
+    const productStock = document.createElement("p");
+    productStock.innerHTML = `<strong>Stock:</strong> ${
+        productData.stock !== undefined ? productData.stock : "Unknown"
+    }`;
+    productDetails.appendChild(productStock);
+    
+    // Category information if available
+    if (productData.category) {
+        const productCategory = document.createElement("p");
+        productCategory.innerHTML = `<strong>Category:</strong> ${productData.category}`;
+        productDetails.appendChild(productCategory);
+    }
+    
+    // Assemble the product card
+    productCard.appendChild(productHeader);
+    productCard.appendChild(productPrice);
+    if (productImage) {
+        productCard.appendChild(productImage);
+    }
+    productCard.appendChild(productDescription);
+    productCard.appendChild(productDetails);
+    
+    // Add to container
+    productDetailsContainer.appendChild(productCard);
 }
 
 // Ensure library constants are available (usually global when script is included)
