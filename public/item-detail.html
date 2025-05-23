@@ -2,15 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Item Detail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Details - GrocX</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4CAF50">
 </head>
 <body>
 
 <nav>
   <div class="brand">GROCX</div>
-  <div class="nav-links">
+  <button class="hamburger-menu" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav-links-item">
+    &#9776; <!-- Hamburger Icon -->
+  </button>
+  <div class="nav-links" id="main-nav-links-item">
     <a href="price-checker.html">Price Checker</a>
     <a href="history-list.html">History List</a>
     <a href="scan-barcode.html">Scan Barcode</a>
@@ -30,5 +36,20 @@
 </div>
 
 <script src="js/item-detail.js"></script>
+<script>
+  // Service Worker Registration
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/service-worker.js")
+        .then((registration) => {
+          console.log("Service Worker registered successfully:", registration.scope);
+        })
+        .catch((error) => {
+          console.error("Service Worker registration failed:", error);
+        });
+    });
+  }
+</script>
+<script src="js/main.js" defer></script>
 </body>
 </html>

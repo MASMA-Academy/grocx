@@ -1,9 +1,9 @@
 import { Request, Response } from "../deps.ts";
 import {
-  addProductToDatabase,
   findProductByBarcode,
+  addProductToDatabase,
   deleteProductFromDatabase
-} from "../models/productModel.ts";
+} from "../models/ProductModel.ts";
 
 export const scanBarcode = async (req: Request, res: Response) => {
   try {
@@ -35,18 +35,22 @@ export const addProduct = async (req: Request, res: Response) => {
         message: "All fields are required",
       });
     }
-    // Add product to the database
-    const product = await addProductToDatabase({
+    const productData = {
       barcode,
       name,
       brand,
       description,
-      category,
-    });
-    if (!product) {
-      return res.status(500).json({ message: "Error adding product: "});
+      category
+    };
+
+    // Add the new product to the database
+    const newProduct = await addProductToDatabase(productData);
+
+    if (newProduct) {
+      return res.json({ message: "Product added successfully" });
+    } else {
+      return res.status(500).json({ message: "Error adding product" });
     }
-    return res.json({ message: "Product added successfully" });
   } catch (error) {
     console.error("Error adding product:", error);
     return res.status(500).json({ message: "Internal server error" });

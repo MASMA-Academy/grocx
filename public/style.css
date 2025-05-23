@@ -2,6 +2,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Inter', sans-serif;
   margin: 0;
@@ -19,18 +23,20 @@ nav .brand {
 }
 nav {
   background: #f3f4f6; /* light grey */
-  padding: 0rem 2rem;
+  padding: 0rem 1rem; /* Adjusted padding for smaller screens initially */
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   height: 56px; /* fixed navbar height */
+  position: relative; /* For positioning the mobile menu */
 }
 
 nav .nav-links {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem; /* Adjusted gap */
   height: 100%;
+  align-items: center; /* Vertically align items */
 }
 
 nav a {
@@ -47,6 +53,7 @@ nav a {
 
 nav a:hover {
   text-decoration: underline;
+  background-color: #e5e7eb; /* Lighter hover for non-active items */
 }
 
 nav a.active {
@@ -55,6 +62,17 @@ nav a.active {
   font-weight: 700;
   text-decoration: none;
    border-radius: 0;
+}
+
+/* Hamburger Menu (Initially hidden on larger screens) */
+.hamburger-menu {
+  display: none; /* Hidden by default */
+  font-size: 1.8rem; /* Adjust size as needed */
+  color: #374151;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
 }
 
 .container {
@@ -71,16 +89,22 @@ h1 {
   margin-bottom: 1.5rem;
 }
 
-input {
-  width: 80%;
+input,
+textarea, /* Added textarea for consistency */
+select { /* Added select for consistency */
+  width: 100%; /* Changed from 80% to 100% for better mobile */
+  max-width: 500px; /* Added max-width to prevent overly wide inputs on large screens */
   padding: 0.75rem;
   margin-bottom: 1rem;
   border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 1rem;
+  background-color: #fff; /* Ensure background color */
+  color: #111827; /* Ensure text color */
 }
 
-button {
+button, 
+.btn { /* Generic button class for consistency */
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   background: #2563eb;
@@ -88,20 +112,66 @@ button {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition */
 }
 
-button:hover {
+button:hover,
+.btn:hover {
   background: #1e40af;
+}
+
+/* Primary button style (if you want to differentiate) */
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* Secondary button style */
+.btn-secondary {
+  background-color: #6b7280; /* gray-500 */
+  color: white;
+}
+.btn-secondary:hover {
+  background-color: #4b5563; /* gray-600 */
+}
+
+/* Green button style (matching theme) */
+.btn-success {
+  background-color: #22c55e; /* green-500 */
+  color: white;
+}
+.btn-success:hover {
+  background-color: #16a34a; /* green-600 */
+}
+
+/* Cancel/Danger button style */
+.btn-danger {
+  background-color: #ef4444; /* red-500 */
+  color: white;
+}
+.btn-danger:hover {
+  background-color: #dc2626; /* red-600 */
 }
 
 #result {
   margin-top: 1rem;
   font-weight: bold;
   color: #047857;
+  margin: 1rem auto; /* Center the scanner video */
+  background: #fefefe;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  /* max-width: 400px; /* Constrain scanner width */
+  /* aspect-ratio: 1 / 1; /* Maintain square aspect ratio if desired */
 }
 
 table {
   width: 100%;
+  min-width: 600px; /* Force table to be at least this wide, triggering scroll on smaller screens */
   border-collapse: collapse;
   margin-top: 1rem;
 }
@@ -123,11 +193,13 @@ tbody tr:hover {
 }
 
 #scanner {
-  width: 100%;
-  height: 100px; /* or higher if you want */
+  width: 100%; /* Take full width of its container */
+  max-width: 450px; /* Max width on larger screens */
+  /* height: 100px; */ /* Removed fixed height, library will manage or use aspect-ratio */
+  aspect-ratio: 1 / 1; /* Attempt to keep it square, adjust if library behaves differently */
   border: 2px dashed #9ca3af;
   margin: 1rem auto;
-  background: #fefefe;
+  background: #f9fafb;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
   position: relative;
   overflow: hidden;
@@ -141,11 +213,13 @@ tbody tr:hover {
 }
 
 .scanner-buttons {
-  margin: 1rem auto 2rem auto; /* space below scanner and buttons */
-  width: 300px; /* same width as scanner box */
+  margin: 1rem auto 2rem auto;
+  width: 100%; /* Make buttons full width on mobile */
+  max-width: 300px; /* Constrain on larger screens */
   display: flex;
   justify-content: space-between;
   gap: 10px;
+  margin-left: 0.75em;
 }
 
 .divider {
@@ -173,20 +247,108 @@ tbody tr:hover {
   margin-left: 0.75em;
 }
 
-.signout-button {
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  border: 2px solid green;
-  background-color: white;
-  color: green;
-  border-radius: 4px;
-  font-weight: 600;
-  transition: background-color 0.2s, color 0.2s;
+/* Responsive Table Container */
+.table-responsive-wrapper {
+  width: 100%;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  margin-top: 1rem;
+  border: 1px solid #e5e7eb; /* Optional: add border to wrapper */
+  border-radius: 6px; /* Optional: match other elements */
 }
 
-.signout-button:hover {
-  background-color: green;
-  color: white;
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) { /* Tablet and smaller */
+  nav {
+    padding: 0rem 1rem; /* Consistent padding */
+  }
+
+  .nav-links {
+    display: none; /* Hide links by default on mobile */
+    flex-direction: column;
+    position: absolute;
+    top: 56px; /* Below navbar */
+    left: 0;
+    width: 100%;
+    background-color: #f3f4f6 !important; /* Same as navbar, added !important to test specificity */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 1rem 0; /* Padding for a list appearance */
+    gap: 0; /* Remove gap for stacked items */
+    z-index: 1000; /* Ensure it's above other content */
+  }
+
+  .nav-links.active { /* Class to show the menu */
+    display: flex;
+    /* Ensure background is also explicitly set here if needed, though inheritance should work */
+    background-color: #f3f4f6 !important; /* Reinforce background for active state */
+  }
+  
+  nav a {
+    width: 100%;
+    justify-content: center; /* Center text in links */
+    padding: 0.75rem 1rem; /* Adjust padding */
+    border-bottom: 1px solid #e5e7eb; /* Separator */
+    border-radius: 0; /* Full width links, no individual radius */
+  }
+  nav a:last-child {
+    border-bottom: none;
+  }
+
+  nav a.active { /* Mobile active link style */
+     background-color: #22c55e;
+     color: white;
+  }
+   nav a:hover { /* Mobile hover style */
+    background-color: #e5e7eb;
+    color: #1f2937; /* Darken text on hover */
+  }
+
+
+  .hamburger-menu {
+    display: block; /* Show hamburger on mobile */
+  }
+
+  .container {
+    margin: 2rem auto;
+    padding: 1rem; /* Reduced padding for smaller screens */
+  }
+
+  h1 {
+    font-size: 1.8rem; /* Slightly smaller H1 on mobile */
+  }
+  
+  input, textarea, select, button, .btn {
+    font-size: 0.95rem; /* Adjust font size for inputs/buttons */
+    padding: 0.65rem 1rem;
+  }
+
+  /* Scanner specific adjustments if #scanner's fixed inline style is removed */
+  #scanner {
+    /* If you remove inline styles from scan-barcode.html for #scanner */
+    height: auto; /* Allow height to adjust with aspect-ratio */
+    width: 90vw; /* Example: 90% of viewport width */
+    max-width: 380px; /* Slightly smaller on tablets */
+    /* aspect-ratio: 1 / 1; */ /* Already set above, can be fine-tuned here if needed */
+  }
+}
+
+@media (max-width: 480px) { /* Mobile specific */
+  nav .brand {
+    font-size: 1.3rem; /* Smaller brand text */
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  /* Further reduce padding on very small screens if needed */
+  .container {
+    margin: 1rem auto;
+    padding: 0.75rem;
+  }
+  #scanner {
+    width: 95vw; /* More width on small mobile */
+    max-width: none; /* Allow it to use the viewport width fully if needed */
+    /* aspect-ratio: 1/1; /* Ensure it remains if overridden */
+  }
 }
 
 

@@ -2,15 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - GROCX</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4CAF50">
 </head>
 <body>
 
   <nav>
     <div class="brand">GROCX</div>
-    <div class="nav-links">
-      <a href="singup.html">Sign Up</a>
+    <button class="hamburger-menu" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav-links-login">
+      &#9776; <!-- Hamburger Icon -->
+    </button>
+    <div class="nav-links" id="main-nav-links-login">
+      <!-- <a href="singup.html">Sign Up</a> Removed broken link -->
+      <a href="login.html" class="active">Login</a>
     </div>
   </nav>
 
@@ -57,7 +64,7 @@
         if (response.ok) {
           // Handle successful login
           alert(data.message);
-           window.location.href = "scan-barcode.html";
+          window.location.href = "scan-barcode.html";
         } else {
           // Handle error (invalid email or password)
           messageDiv.textContent = data.message;
@@ -67,6 +74,20 @@
         console.error(error);
       }
     });
+
+    // Service Worker Registration
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/service-worker.js")
+          .then((registration) => {
+            console.log("Service Worker registered successfully:", registration.scope);
+          })
+          .catch((error) => {
+            console.error("Service Worker registration failed:", error);
+          });
+      });
+    }
   </script>
+  <script src="js/main.js" defer></script> 
 </body>
 </html>

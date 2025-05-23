@@ -1,6 +1,6 @@
 {
   "tasks": {
-     "dev": "deno run --watch -A main.ts"
+    "dev": "deno run --watch -A main.ts"
   },
   "nodeModulesDir": "auto",
   "imports": {
@@ -10,5 +10,13 @@
     "jsonwebtoken": "npm:jsonwebtoken@^9.0.2",
     "postgres": "npm:postgres@^3.4.6",
     "supabase": "npm:supabase@^2.23.4"
+  },
+  "deploy": {
+    "project": "19c9fe93-f58f-4e35-a6d0-ff2a1f779e49",
+    "exclude": [
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "main.ts"
   }
 }

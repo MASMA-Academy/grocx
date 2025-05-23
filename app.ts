@@ -3,6 +3,7 @@
 import path from "node:path";
 import { cors, dotenv, express, Request, Response } from "./deps.ts";
 import { authRouter } from "./routes/authRoutes.ts";
+import { productRouter } from "./routes/productRoutes.ts";
 import { scanBarcodeRouter } from "./routes/scan-barcode.ts";
 
 // Load environment variables
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use(authRouter);
+app.use(productRouter);
 app.use(scanBarcodeRouter);
 // Home route
 // app.get("/", (_req: Request, res: Response) => {
@@ -26,13 +28,13 @@ app.get("/", (_req: Request, res: Response) => {
   res.sendFile(path.join(Deno.cwd(), 'public', 'login.html'));
 });
 // Login page
-app.get("/login", (req: Request, res: Response) => {
-  res.sendFile(path.join(Deno.cwd(), "public", "login.html"));
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'public', 'login.html'));
 });
 
 // Register page
-app.get('/register', (_req: Request, res: Response) => {
-  res.sendFile(path.join(Deno.cwd(), 'public', 'singup.html'));
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'public', 'singup.html'));
 });
 
 
