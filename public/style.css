@@ -270,7 +270,7 @@ tbody tr:hover {
     top: 56px; /* Below navbar */
     left: 0;
     width: 100%;
-    background-color: #f3f4f6; /* Same as navbar */
+    background-color: #f3f4f6 !important; /* Same as navbar, added !important to test specificity */
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     padding: 1rem 0; /* Padding for a list appearance */
     gap: 0; /* Remove gap for stacked items */
@@ -279,6 +279,8 @@ tbody tr:hover {
 
   .nav-links.active { /* Class to show the menu */
     display: flex;
+    /* Ensure background is also explicitly set here if needed, though inheritance should work */
+    background-color: #f3f4f6 !important; /* Reinforce background for active state */
   }
   
   nav a {
