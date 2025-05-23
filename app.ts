@@ -21,10 +21,12 @@ app.use(authRouter);
 app.use(productRouter);
 app.use(scanBarcodeRouter);
 // Home route
+// app.get("/", (_req: Request, res: Response) => {
+//   res.json({ message: "Welcome to GROCX" });
+// });
 app.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "Welcome to GROCX" });
+  res.sendFile(path.join(Deno.cwd(), 'public', 'login.html'));
 });
-
 // Login page
 app.get('/login', (req, res) => {
   res.sendFile(path.join(process.cwd(), 'public', 'login.html'));
