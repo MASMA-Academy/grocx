@@ -166,5 +166,5 @@ router.get("/product-prices/all", getAllPriceEntries);
  *         description: Internal server error
  */
 router.get("/product/:productId/price-history", getProductPriceHistory);
-
+router.get("/product-prices/history/:productId", getProductPriceHistory);
 export { router as productRouter }; 
